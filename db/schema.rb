@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20151206184551) do
 
   create_table "games", force: :cascade do |t|
     t.date    "date"
-    t.integer "season"
+    t.string  "season"
     t.integer "home_team_id"
     t.integer "away_team_id"
     t.integer "home_goals"
