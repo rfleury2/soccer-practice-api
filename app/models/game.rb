@@ -14,6 +14,12 @@ class Game < ActiveRecord::Base
 	validates_numericality_of :home_goals, 
 														:away_goals
 
+	scope :german, 	-> { where(league: 'Germany') }
+	scope :italian, -> { where(league: 'Italy') }
+	scope :english, -> { where(league: 'England') }
+	scope :spanish, -> { where(league: 'Spain') }
+	scope :dutch, 	-> { where(league: 'Holland') }
+
 	def result
 		return "W" if home_goals > away_goals
 		return "D" if home_goals == away_goals

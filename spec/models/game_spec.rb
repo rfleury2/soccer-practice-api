@@ -29,4 +29,37 @@ RSpec.describe Game, type: :model do
 			expect(home_loss.result).to eq "L"
 		end
 	end
+
+	describe "league scoping" do
+		let!(:english_game) { FactoryGirl.create(:game) }
+		let!(:english_game_2) { FactoryGirl.create(:game) }
+		let!(:spanish_game) { FactoryGirl.create(:game, league: "Spain") }
+		let!(:spanish_game_2) { FactoryGirl.create(:game, league: "Spain") }
+		let!(:italian_game) { FactoryGirl.create(:game, league: "Italy") }
+		let!(:italian_game_2) { FactoryGirl.create(:game, league: "Italy") }
+		let!(:dutch_game) { FactoryGirl.create(:game, league: "Holland") }
+		let!(:dutch_game_2) { FactoryGirl.create(:game, league: "Holland") }
+		let!(:german_game) { FactoryGirl.create(:game, league: "Germany") }
+		let!(:german_game_2) { FactoryGirl.create(:game, league: "Germany") }
+
+		scenario ".english returns only english games" do
+			expect(Game.english).to eq [english_game, english_game_2] 
+		end
+
+		scenario ".spanish returns only spanish games" do
+			expect(Game.spanish).to eq [spanish_game, spanish_game_2] 
+		end
+
+		scenario ".italian returns only italian games" do
+			expect(Game.italian).to eq [italian_game, italian_game_2] 
+		end
+
+		scenario ".dutch returns only dutch games" do
+			expect(Game.dutch).to eq [dutch_game, dutch_game_2] 
+		end
+
+		scenario ".german returns only german games" do
+			expect(Game.german).to eq [german_game, german_game_2] 
+		end
+	end
 end

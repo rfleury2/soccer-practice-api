@@ -12,7 +12,6 @@ def seed_england
 	x = 0
 	puts "Loading English games"
 	CSV.foreach("vendor/raw_data/english_games.csv") do |date, season, home, visitor, ft, hgoal, vgoal, division|
-		puts "Loading game #{x} - #{home} vs #{visitor}"
 		x = x+1
 		Game.find_or_create_by(
 			date: Date.parse(date),
@@ -31,7 +30,6 @@ def seed_italy
 	x = 0
 	puts "Loading Italian games"
 	CSV.foreach("vendor/raw_data/italycalcio.csv") do |date, season, home, visitor, ft, hgoal, vgoal, division|
-		puts "Loading game #{x} - #{home} vs #{visitor} - #{date}"
 		x = x+1
 		Game.find_or_create_by(
 			date: Date.parse(date),
@@ -50,7 +48,6 @@ def seed_holland
 	x = 0
 	puts "Loading Dutch games"
 	CSV.foreach("vendor/raw_data/holland1.csv") do |date, season, home, visitor, ft, hgoal, vgoal, division|
-		puts "Loading game #{x} - #{home} vs #{visitor} - #{date}"
 		x = x+1
 		Game.find_or_create_by(
 			date: Date.parse(date),
@@ -69,7 +66,6 @@ def seed_spain
 	x = 0
 	puts "Loading Spanish games"
 	CSV.foreach("vendor/raw_data/spainliga.csv") do |date, season, home, visitor, ft, hgoal, vgoal, division|
-		puts "Loading game #{x} - #{home} vs #{visitor} - #{date}"
 		x = x+1
 		Game.find_or_create_by(
 			date: Date.parse(date),
@@ -88,7 +84,6 @@ def seed_germany
 	x = 0
 	puts "Loading German games"
 	CSV.foreach("vendor/raw_data/bundesliga.csv") do |date, season, home, visitor, ft, hgoal, vgoal, division|
-		puts "Loading game #{x} - #{home} vs #{visitor} - #{date}"
 		x = x+1
 		Game.find_or_create_by(
 			date: Date.parse(date),
@@ -103,8 +98,10 @@ def seed_germany
 	end
 end
 
+puts "Started at #{Time.now}"
 seed_england 
 seed_italy
 seed_holland
 seed_spain
 seed_germany
+puts "Ended at #{Time.now}"
