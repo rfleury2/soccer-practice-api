@@ -20,6 +20,8 @@ class Game < ActiveRecord::Base
 	scope :spanish, -> { where(league: 'Spain') }
 	scope :dutch, 	-> { where(league: 'Holland') }
 
+	scope :top_flight, 	-> { where(division: "1") }
+
 	def result
 		return "W" if home_goals > away_goals
 		return "D" if home_goals == away_goals

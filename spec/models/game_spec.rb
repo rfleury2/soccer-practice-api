@@ -62,4 +62,16 @@ RSpec.describe Game, type: :model do
 			expect(Game.german).to eq [german_game, german_game_2] 
 		end
 	end
+
+	describe "division scoping" do
+		let(:top_flight) { FactoryGirl.create(:game, division: "1") }
+		let(:top_flight_2) { FactoryGirl.create(:game, division: "1") }
+		let(:game_1) { FactoryGirl.create(:game, division: "2") }
+		let(:game_2) { FactoryGirl.create(:game, division: "3") }
+		let(:game_3) { FactoryGirl.create(:game, division: "4") }
+
+		scenario "top flight" do
+			expect(Game.top_flight).to eq [top_flight, top_flight_2] 
+		end
+	end
 end
