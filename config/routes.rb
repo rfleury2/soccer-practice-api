@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
+  namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/'  do
+    resources :seasons, only: [:show]
+  end
+
   # Example of regular route:
 
   # Example of named route that can be invoked with purchase_url(id: product.id)

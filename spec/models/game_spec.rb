@@ -3,14 +3,17 @@ require 'rails_helper'
 RSpec.describe Game, type: :model do
 	it { should belong_to(:home_team).class_name('Team') }
 	it { should belong_to(:away_team).class_name('Team') }
+	it { should belong_to(:season) }
+	it { should belong_to(:league) }
+
+	# TODO: Delegate spec
 
 	it { should validate_presence_of(:date) }
-	it { should validate_presence_of(:season) }
 	it { should validate_presence_of(:home_team) }
 	it { should validate_presence_of(:away_team) }
+	it { should validate_presence_of(:home_goals) }
+	it { should validate_presence_of(:away_goals) }
 	it { should validate_presence_of(:season) }
-	it { should validate_presence_of(:division) }
-	it { should validate_presence_of(:league) }
 
 	describe "calculates game results" do
 		let(:home_win) { FactoryGirl.build(:game, home_goals: 1, away_goals: 0) }
@@ -31,44 +34,51 @@ RSpec.describe Game, type: :model do
 	end
 
 	describe "league scoping" do
-		let!(:english_game) { FactoryGirl.create(:game) }
-		let!(:english_game_2) { FactoryGirl.create(:game) }
-		let!(:spanish_game) { FactoryGirl.create(:game, league: "Spain") }
-		let!(:spanish_game_2) { FactoryGirl.create(:game, league: "Spain") }
-		let!(:italian_game) { FactoryGirl.create(:game, league: "Italy") }
-		let!(:italian_game_2) { FactoryGirl.create(:game, league: "Italy") }
-		let!(:dutch_game) { FactoryGirl.create(:game, league: "Holland") }
-		let!(:dutch_game_2) { FactoryGirl.create(:game, league: "Holland") }
-		let!(:german_game) { FactoryGirl.create(:game, league: "Germany") }
-		let!(:german_game_2) { FactoryGirl.create(:game, league: "Germany") }
+		# TODO: Reset this
+		let(:english_league) { FactoryGirl.create(:league, :english) }
+		let(:spanish_league) { FactoryGirl.create(:league, :spanish) }
+		let(:italian_league) { FactoryGirl.create(:league, :italian) }
+		let(:dutch_league) { FactoryGirl.create(:league, :dutch) }
+		let(:german_league) { FactoryGirl.create(:league, :german) }
 
-		scenario ".english returns only english games" do
-			expect(Game.english).to eq [english_game, english_game_2] 
+		let!(:english_game) { FactoryGirl.create(:game, league: english_league) }
+		let!(:english_game_2) { FactoryGirl.create(:game, league: english_league) }
+		let!(:spanish_game) { FactoryGirl.create(:game, league: spanish_league) }
+		let!(:spanish_game_2) { FactoryGirl.create(:game, league: spanish_league) }
+		let!(:italian_game) { FactoryGirl.create(:game, league: italian_league) }
+		let!(:italian_game_2) { FactoryGirl.create(:game, league: italian_league) }
+		let!(:dutch_game) { FactoryGirl.create(:game, league: dutch_league) }
+		let!(:dutch_game_2) { FactoryGirl.create(:game, league: dutch_league) }
+		let!(:german_game) { FactoryGirl.create(:game, league: german_league) }
+		let!(:german_game_2) { FactoryGirl.create(:game, league: german_league) }
+
+		scenario "english returns only english games" do
+			expect(Game.league('england')).to eq [english_game, english_game_2] 
 		end
 
-		scenario ".spanish returns only spanish games" do
-			expect(Game.spanish).to eq [spanish_game, spanish_game_2] 
+		scenario "spanish returns only spanish games" do
+			expect(Game.league('spain')).to eq [spanish_game, spanish_game_2] 
 		end
 
-		scenario ".italian returns only italian games" do
-			expect(Game.italian).to eq [italian_game, italian_game_2] 
+		scenario "italian returns only italian games" do
+			expect(Game.league('italy')).to eq [italian_game, italian_game_2] 
 		end
 
-		scenario ".dutch returns only dutch games" do
-			expect(Game.dutch).to eq [dutch_game, dutch_game_2] 
+		scenario "dutch returns only dutch games" do
+			expect(Game.league('holland')).to eq [dutch_game, dutch_game_2] 
 		end
 
 		scenario ".german returns only german games" do
-			expect(Game.german).to eq [german_game, german_game_2] 
+			expect(Game.league('germany')).to eq [german_game, german_game_2] 
 		end
 	end
 
 	describe "division scoping" do
-		let(:top_flight) { FactoryGirl.create(:game, division: "1") }
-		let(:top_flight_2) { FactoryGirl.create(:game, division: "1") }
-		let(:game_1) { FactoryGirl.create(:game, division: "2") }
-		let(:game_2) { FactoryGirl.create(:game, division: "3") }
-		let(:game_3) { FactoryGirl.create(:game, division: "4") }
+		let!(:top_flight) { FactoryGirl.create(:game) }
+		let!(:top_flight_2) { FactoryGirl.create(:game) }
+		let!(:game_1) { FactoryGirl.create(:game, :second_division) }
+		let!(:game_2) { FactoryGirl.create(:game, :second_division) }
+		let!(:game_3) { FactoryGirl.create(:game, :second_division) }
 
 		scenario "top flight" do
 			expect(Game.top_flight).to eq [top_flight, top_flight_2] 

@@ -11,24 +11,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151206184551) do
+ActiveRecord::Schema.define(version: 20151212183329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "games", force: :cascade do |t|
-    t.date    "date"
-    t.string  "season"
-    t.integer "home_team_id"
-    t.integer "away_team_id"
-    t.integer "home_goals"
-    t.integer "away_goals"
-    t.string  "division"
-    t.string  "league"
+    t.date     "date"
+    t.integer  "season_id"
+    t.integer  "league_id"
+    t.integer  "home_team_id"
+    t.integer  "away_team_id"
+    t.integer  "home_goals"
+    t.integer  "away_goals"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "leagues", force: :cascade do |t|
+    t.string   "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.string   "year"
+    t.string   "division"
+    t.integer  "league_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string "name"
+    t.string   "name"
+    t.integer  "league_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
